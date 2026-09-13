@@ -1,0 +1,21 @@
+# Test output
+coverage/
+tests/
+
+# Environment / secrets
+.env
+
+# Dev config
+.gitignore
+.vscode/
+.idea/
+
+# Lock files
+package-lock.json
+
+# Old files (should be deleted, but just in case)
+server.js
+
+# OS files
+.DS_Store
+Thumbs.db
