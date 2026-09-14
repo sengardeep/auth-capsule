@@ -25,7 +25,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import nodemailer from 'nodemailer';
-import ytAuth from 'auth-capsule';
+import authProvider from 'auth-capsule';
 
 // 1. Connect to MongoDB
 await mongoose.connect('mongodb://localhost:27017/myapp');
@@ -33,8 +33,8 @@ await mongoose.connect('mongodb://localhost:27017/myapp');
 // 2. Set up your email transport (any provider)
 const transporter = nodemailer.createTransport({ /* your config */ });
 
-// 3. Initialize yt-auth
-ytAuth.init({
+// 3. Initialize authProvider
+authProvider.init({
   mongoose,
   jwtSecret: process.env.JWT_SECRET,
   emailAdapter: async (to, subject, text, html) => {
@@ -52,11 +52,11 @@ app.use(express.json());
 app.use(cookieParser());
 
 // 5. Mount the convenience auth router
-const authRouter = ytAuth.createAuthRouter();
+const authRouter = authProvider.createAuthRouter();
 app.use('/api/auth', authRouter);
 
 // 6. Protect routes with authenticate() middleware
-app.get('/api/profile', ytAuth.authenticate(), (req, res) => {
+app.get('/api/profile', authProvider.authenticate(), (req, res) => {
   res.json({ user: req.user });
 });
 
@@ -137,7 +137,7 @@ Returns an Express middleware that:
 4. Attaches `req.user` with `{ id, username, email, verified }`
 
 ```js
-app.get('/protected', ytAuth.authenticate(), (req, res) => {
+app.get('/protected', authProvider.authenticate(), (req, res) => {
   res.json({ user: req.user });
 });
 ```
@@ -169,7 +169,7 @@ Returns a pre-wired Express Router with these routes:
 Returns the Mongoose models registered during `init()`:
 
 ```js
-const { User, Session, Otp } = ytAuth.getModels();
+const { User, Session, Otp } = authProvider.getModels();
 ```
 
 ---
