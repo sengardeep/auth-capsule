@@ -1,6 +1,6 @@
 {
   "name": "auth-capsule",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Configurable OTP + JWT authentication package for Express/Mongoose apps",
   "main": "src/index.js",
   "type": "module",
